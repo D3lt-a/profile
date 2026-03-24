@@ -2,13 +2,15 @@
   <!-- Text only (transparent background) -->
   <text 
     x="50%" 
-    y="55%" 
+    y="60%" 
     dominant-baseline="middle" 
     text-anchor="middle" 
     font-family="Arial, Helvetica, sans-serif" 
-    font-size="45" 
+    font-size="65" 
     font-weight="bold" 
-    fill="#FF6A00">
+    fill="#FF6A00"
+    stroke="#000000"
+    stroke-width="2">
     GB
   </text>
 </svg>
