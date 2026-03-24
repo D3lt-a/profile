@@ -184,7 +184,7 @@ footer span { color: var(--amber-d); }
 document.getElementById('yr').textContent = new Date().getFullYear();
 
 /* ── API CONFIG ── replace base URL when your backend is ready ── */
-const API_BASE = '/api'; // e.g. 'https://your-backend.com/api'
+const API_BASE = 'https://dashboard-nhfa.onrender.com/api'; // e.g. 'https://your-backend.com/api'
 
 async function loadProjects() {
   const grid = document.getElementById('projects-grid');
@@ -224,10 +224,6 @@ function esc(str='') {
 }
 
 /* ── Demo data — remove once backend is live ── */
-const DEMO_PROJECTS = [
-  { name: 'Project Alpha', description: 'A sample project to show how cards look. Replace with your real work once the backend is connected.', tech: ['React','Node.js'], github_url: '#', live_url: '#' },
-  { name: 'Project Beta',  description: 'Another demo card. Your actual projects will load from the API automatically.', tech: ['Python','PostgreSQL'], github_url: '#', live_url: '' },
-];
 
 loadProjects();
 </script>
