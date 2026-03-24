@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dev Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #0f0e0c;
+  --bg2:      #161410;
+  --bg3:      #1e1b17;
+  --border:   rgba(210,145,50,0.14);
+  --border2:  rgba(210,145,50,0.28);
+  --amber:    #d49132;
+  --amber-d:  #8a5e1f;
+  --amber-b:  #f0b84a;
+  --text:     #e8ddc8;
+  --text-dim: #8a7f6e;
+  --text-mut: #4a453c;
+  --mono: 'JetBrains Mono', monospace;
+  --serif: 'Fraunces', Georgia, serif;
+}
+
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--mono); font-size: 14px; line-height: 1.7; min-height: 100vh; }
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(15,14,12,0.93); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2.5rem; height: 54px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo { font-size: 12px; color: var(--amber); letter-spacing: 0.1em; }
+.nav-links { display: flex; gap: 2rem; align-items: center; }
+.nav-links a { color: var(--text-dim); text-decoration: none; font-size: 12px; letter-spacing: 0.06em; transition: color 0.2s; }
+.nav-links a:hover { color: var(--amber); }
+.admin-link { color: var(--text-mut) !important; font-size: 11px !important; }
+.admin-link:hover { color: var(--amber-d) !important; }
+
+/* ── HERO ── */
+#hero { padding: 8rem 2.5rem 5rem; max-width: 900px; margin: 0 auto; }
+.eyebrow { font-size: 11px; letter-spacing: 0.22em; color: var(--amber-d); text-transform: uppercase; margin-bottom: 1.4rem; }
+.hero-name {
+  font-family: var(--serif); font-size: clamp(3.2rem, 7vw, 5.8rem);
+  font-weight: 300; line-height: 1.04; color: var(--text); margin-bottom: 1rem;
+}
+.hero-name em { color: var(--amber); font-style: italic; }
+.hero-role { color: var(--text-dim); font-size: 12.5px; margin-bottom: 1.8rem; letter-spacing: 0.04em; }
+.hero-bio { color: var(--text-dim); max-width: 540px; line-height: 1.85; font-size: 13.5px; margin-bottom: 2.5rem; }
+.cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn { display: inline-block; padding: 9px 22px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; cursor: pointer; transition: all 0.18s; text-decoration: none; border-radius: 2px; }
+.btn-solid { background: var(--amber); color: #0f0e0c; border: 1px solid var(--amber); font-weight: 700; }
+.btn-solid:hover { background: var(--amber-b); border-color: var(--amber-b); }
+.btn-ghost { background: transparent; color: var(--text-dim); border: 1px solid var(--border2); }
+.btn-ghost:hover { color: var(--text); border-color: var(--amber-d); }
+
+/* ── SECTIONS ── */
+section { padding: 5rem 2.5rem; max-width: 900px; margin: 0 auto; }
+.section-label {
+  font-size: 11px; letter-spacing: 0.2em; color: var(--amber-d); text-transform: uppercase;
+  margin-bottom: 2.5rem; display: flex; align-items: center; gap: 14px;
+}
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ── STACK ── */
+.stack-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+.stack-tag {
+  padding: 6px 14px; border: 1px solid var(--border); color: var(--text-dim);
+  font-size: 12px; letter-spacing: 0.04em; border-radius: 2px; background: var(--bg2);
+}
+
+/* ── PROJECTS GRID ── */
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1px; }
+.project-card {
+  background: var(--bg2); border: 1px solid var(--border); padding: 1.6rem 1.75rem;
+  display: flex; flex-direction: column; gap: 0.75rem; transition: border-color 0.2s, background 0.2s;
+}
+.project-card:hover { border-color: var(--border2); background: var(--bg3); }
+.proj-name { font-size: 14px; font-weight: 500; color: var(--text); }
+.proj-desc { font-size: 12.5px; color: var(--text-dim); line-height: 1.8; flex: 1; }
+.proj-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.25rem; }
+.proj-tag {
+  font-size: 10.5px; padding: 2px 9px; border-radius: 2px;
+  background: rgba(212,145,50,0.07); color: var(--amber-d); border: 1px solid rgba(212,145,50,0.14);
+}
+.proj-links { display: flex; gap: 8px; margin-top: 0.5rem; }
+.proj-link {
+  font-size: 11px; color: var(--amber-d); text-decoration: none; letter-spacing: 0.05em;
+  border: 1px solid var(--border); padding: 3px 11px; border-radius: 2px; transition: all 0.18s;
+}
+.proj-link:hover { color: var(--amber); border-color: var(--amber-d); }
+
+.loading { color: var(--text-mut); font-size: 12px; padding: 2rem 0; }
+.empty { color: var(--text-mut); font-size: 12px; padding: 2rem 0; }
+.empty span { color: var(--amber-d); }
+.error-msg { color: #b05050; font-size: 12px; padding: 1rem 0; }
+
+/* ── FOOTER ── */
+footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; text-align: center; color: var(--text-mut); font-size: 11px; letter-spacing: 0.1em; }
+footer span { color: var(--amber-d); }
+
+/* ── FADE IN ── */
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+.fade-up { animation: fadeUp 0.5s ease both; }
+.delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; } .delay-3 { animation-delay: 0.3s; } .delay-4 { animation-delay: 0.4s; }
+
+@media (max-width: 600px) {
+  nav { padding: 0 1.25rem; }
+  #hero, section { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .hero-name { font-size: 2.8rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">// dev.folio</span>
+  <div class="nav-links">
+    <a href="#about">about</a>
+    <a href="#stack">stack</a>
+    <a href="#projects">projects</a>
+    <a href="admin.html" class="admin-link">admin</a>
+  </div>
+</nav>
+
+<div id="hero">
+  <p class="eyebrow fade-up">// hello, world</p>
+  <h1 class="hero-name fade-up delay-1">Your <em>Name</em><br/>Goes Here</h1>
+  <p class="hero-role fade-up delay-2">full-stack developer &middot; building in public</p>
+  <p class="hero-bio fade-up delay-3">
+    A short description about you — who you are, what you love building,
+    and what your coding journey looks like. Keep it real and personal.
+  </p>
+  <div class="cta-row fade-up delay-4">
+    <a href="#projects" class="btn btn-solid">view projects</a>
+    <a href="https://github.com/yourusername" target="_blank" class="btn btn-ghost">github ↗</a>
+  </div>
+</div>
+
+<section id="about">
+  <p class="section-label">about me</p>
+  <p style="color:var(--text-dim);font-size:13.5px;max-width:600px;line-height:1.9;">
+    Replace this with your story. Where you started, what sparked your interest in code,
+    what you've been learning lately, and where you're headed. Your journey is the brand.
+  </p>
+</section>
+
+<section id="stack">
+  <p class="section-label">tech stack</p>
+  <div class="stack-grid" id="stack-grid">
+    <!-- populated by api or hardcoded -->
+    <span class="stack-tag">JavaScript</span>
+    <span class="stack-tag">TypeScript</span>
+    <span class="stack-tag">React</span>
+    <span class="stack-tag">Node.js</span>
+    <span class="stack-tag">Python</span>
+    <span class="stack-tag">PostgreSQL</span>
+    <span class="stack-tag">MongoDB</span>
+    <span class="stack-tag">Docker</span>
+    <span class="stack-tag">Git</span>
+    <span class="stack-tag">REST APIs</span>
+    <span class="stack-tag">Tailwind CSS</span>
+    <span class="stack-tag">Linux</span>
+  </div>
+</section>
+
+<section id="projects">
+  <p class="section-label">projects</p>
+  <div class="projects-grid" id="projects-grid">
+    <p class="loading">// loading projects...</p>
+  </div>
+</section>
+
+<footer>
+  <span>// built in public</span> &middot; &copy; <span id="yr"></span>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* ── API CONFIG ── replace base URL when your backend is ready ── */
+const API_BASE = '/api'; // e.g. 'https://your-backend.com/api'
+
+async function loadProjects() {
+  const grid = document.getElementById('projects-grid');
+  try {
+    const res = await fetch(`${API_BASE}/projects`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const projects = await res.json();
+    renderProjects(projects);
+  } catch (err) {
+    // ── DEMO MODE: shows sample cards when no backend ──
+    renderProjects(DEMO_PROJECTS);
+    console.info('[portfolio] No backend found — showing demo data. Set API_BASE to your endpoint.');
+  }
+}
+
+function renderProjects(projects) {
+  const grid = document.getElementById('projects-grid');
+  if (!projects.length) {
+    grid.innerHTML = '<p class="empty">No projects yet — <span>check back soon.</span></p>';
+    return;
+  }
+  grid.innerHTML = projects.map(p => `
+    <div class="project-card">
+      <p class="proj-name">${esc(p.name)}</p>
+      <p class="proj-desc">${esc(p.description)}</p>
+      ${p.tech && p.tech.length ? `<div class="proj-tags">${p.tech.map(t => `<span class="proj-tag">${esc(t)}</span>`).join('')}</div>` : ''}
+      <div class="proj-links">
+        ${p.github_url ? `<a href="${esc(p.github_url)}" class="proj-link" target="_blank" rel="noopener">github ↗</a>` : ''}
+        ${p.live_url   ? `<a href="${esc(p.live_url)}"   class="proj-link" target="_blank" rel="noopener">live ↗</a>`   : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function esc(str='') {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ── Demo data — remove once backend is live ── */
+const DEMO_PROJECTS = [
+  { name: 'Project Alpha', description: 'A sample project to show how cards look. Replace with your real work once the backend is connected.', tech: ['React','Node.js'], github_url: '#', live_url: '#' },
+  { name: 'Project Beta',  description: 'Another demo card. Your actual projects will load from the API automatically.', tech: ['Python','PostgreSQL'], github_url: '#', live_url: '' },
+];
+
+loadProjects();
+</script>
+</body>
+</html>
