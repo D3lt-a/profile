@@ -428,7 +428,6 @@
   <section id="stack">
     <p class="section-label">tech stack</p>
     <div class="stack-grid" id="stack-grid">
-      <!-- populated by api or hardcoded -->
       <span class="stack-tag">JavaScript</span>
       <span class="stack-tag">TypeScript</span>
       <span class="stack-tag">React</span>
@@ -457,19 +456,29 @@
 
   <script>
     document.getElementById('yr').textContent = new Date().getFullYear();
-
-    /* ── API CONFIG ── replace base URL when your backend is ready ── */
-    const API_BASE = 'https://dashboard-nhfa.onrender.com/api'; // e.g. 'https://your-backend.com/api'
+    const API_BASE = 'https://dashboard-nhfa.onrender.com/api';
+    const messages = [
+      "// waking up server... hang in there!!",
+      "// spinning up the hamsters ...",
+      "// summoning electrons ...",
+      "// knocking on server door ...",
+      "// convincing server to get out of bed ...",
+      "// compiling patience... please wait ",
+      "// almost there... promise "
+    ]
 
     async function loadProjects() {
       const grid = document.getElementById('projects-grid');
+      const slowTimer = setTimeout(() => {
+        grid.innerHTML = `<p class="loading">${messages[Math.floor(Math.random() * messages.length)]}</p>`;
+      }, 3000)
       try {
         const res = await fetch(`${API_BASE}/projects`);
+        clearTimeout(slowTimer);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const projects = await res.json();
         renderProjects(projects);
       } catch (err) {
-        // ── DEMO MODE: shows sample cards when no backend ──
         renderProjects(DEMO_PROJECTS);
         console.info('[portfolio] No backend found — showing demo data. Set API_BASE to your endpoint.');
       }
@@ -498,7 +507,15 @@
       return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
-    /* ── Demo data — remove once backend is live ── */
+    const DEMO_PROJECTS = [
+      {
+        name: 'DEMO Project',
+        description: 'If u seeing this it means the projects couldn\'t load due to some errors, check your internet connnection and reload the page or wait few seconds',
+        tech: ['Erro Handler', 'Backup Project'],
+        github_url: '#',
+        live_url: ''
+      },
+    ]
 
     loadProjects();
   </script>

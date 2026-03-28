@@ -600,8 +600,6 @@
 </head>
 
 <body>
-
-  <!-- ══════════════ LOGIN ══════════════ -->
   <div id="login-screen">
     <div class="login-box">
       <p class="login-logo">// admin access</p>
@@ -615,10 +613,6 @@
       <p class="login-error" id="login-error">// incorrect password</p>
     </div>
   </div>
-
-
-
-  <!-- ══════════════ ADMIN ══════════════ -->
   <div id="admin-screen">
 
     <header>
@@ -636,7 +630,6 @@
       <h1 class="page-title">Projects</h1>
       <p class="page-sub">Add, edit or remove projects. Changes reflect on the public portfolio instantly.</p>
 
-      <!-- ADD FORM -->
       <div class="panel">
         <div class="panel-header">
           <span class="panel-title">+ new project</span>
@@ -674,7 +667,6 @@
         </div>
       </div>
 
-      <!-- TABLE -->
       <div class="table-wrap" id="table-wrap">
         <div class="tbl-loading">// loading projects...</div>
       </div>
@@ -682,7 +674,6 @@
 
   </div>
 
-  <!-- EDIT MODAL -->
   <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
     <div class="modal">
       <div class="modal-header">
@@ -725,23 +716,7 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    /* ════════════════════════════════════════
-       CONFIG — swap these when backend is ready
-       ════════════════════════════════════════ */
     const API_BASE = 'https://dashboard-nhfa.onrender.com/api';
-
-    /*
-      Expected API contract:
-      GET    /api/projects              → [ { id, name, description, tech[], github_url, live_url, created_at } ]
-      POST   /api/projects              → body: { name, description, tech[], github_url, live_url }  → 201 created project
-      PUT    /api/projects/:id          → body: { name, description, tech[], github_url, live_url }  → updated project
-      DELETE /api/projects/:id          → 204 no content
-    
-      POST   /api/auth/login            → body: { password }  → 200 { token } | 401
-      (Token stored in sessionStorage and sent as  Authorization: Bearer <token>)
-    */
-
-    /* ════ AUTH ════ */
     function getToken() { return sessionStorage.getItem('admin_token'); }
     function setToken(t) { sessionStorage.setItem('admin_token', t); }
     function clearToken() { sessionStorage.removeItem('admin_token'); }
@@ -764,7 +739,6 @@
         setToken(data.token);
         showAdmin();
       } catch {
-        // ── DEMO MODE: accept 'admin' as password when no backend ──
         if (pwd === 'admin') {
           setToken('demo-token');
           showAdmin();
@@ -792,10 +766,8 @@
       loadProjects();
     }
 
-    /* check for existing session */
     if (getToken()) showAdmin();
 
-    /* ════ PROJECTS ════ */
     let projects = [];
 
     async function loadProjects() {
@@ -806,7 +778,7 @@
         if (!res.ok) throw new Error();
         projects = await res.json();
       } catch {
-        projects = DEMO_PROJECTS; // demo fallback
+        projects = DEMO_PROJECTS;
       }
       renderTable();
     }
@@ -842,7 +814,6 @@
   `;
     }
 
-    /* ── ADD ── */
     let formOpen = false;
     function toggleForm() {
       formOpen = !formOpen;
@@ -872,7 +843,6 @@
         const created = await res.json();
         projects.unshift(created);
       } catch {
-        // demo: add locally
         payload.id = 'demo-' + Date.now();
         projects.unshift(payload);
       }
@@ -881,7 +851,6 @@
       showToast('project posted ✓');
     }
 
-    /* ── EDIT ── */
     function openEdit(id) {
       const p = projects.find(x => String(x.id) === String(id));
       if (!p) return;
@@ -924,7 +893,6 @@
       showToast('project updated ✓');
     }
 
-    /* ── DELETE ── */
     async function deleteProject(id) {
       if (!confirm('Delete this project? This cannot be undone.')) return;
       try {
@@ -935,7 +903,6 @@
       showToast('project deleted');
     }
 
-    /* ── UTILS ── */
     function showToast(msg, isErr = false) {
       const t = document.getElementById('toast');
       t.textContent = msg;

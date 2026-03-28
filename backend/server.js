@@ -6,40 +6,35 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
-// i used a port 5000
-
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-change-me';
 
-// Middleware
 app.use(cors({
-    origin: '*', // In production, change to your frontend domain (e.g. https://yourname.github.io)
+    origin: 'https://gavinboris.netlify.app/',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 
-// PostgreSQL Pool
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
 });
 
-// Create tables if they don't exist
 async function initDB() {
     try {
         await pool.query(`
-      CREATE TABLE IF NOT EXISTS projects (
-        id          SERIAL PRIMARY KEY,
-        name        TEXT NOT NULL,
-        description TEXT NOT NULL,
-        tech        TEXT[],
-        github_url  TEXT,
-        live_url    TEXT,
-        created_at  TIMESTAMPTZ DEFAULT NOW()
-      );
+        CREATE TABLE IF NOT EXISTS projects (
+            id          SERIAL PRIMARY KEY,
+            name        TEXT NOT NULL,
+            description TEXT NOT NULL,
+            tech        TEXT[],
+            github_url  TEXT,
+            live_url    TEXT,
+            created_at  TIMESTAMPTZ DEFAULT NOW()
+        );
     `);
         console.log('✅ Database initialized');
     } catch (err) {
@@ -47,7 +42,6 @@ async function initDB() {
     }
 }
 
-// Auth Middleware
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
@@ -61,9 +55,6 @@ const authenticateToken = (req, res, next) => {
     });
 };
 
-// ====================== ROUTES ======================
-
-// POST /api/auth/login
 app.post('/api/auth/login', async (req, res) => {
     const { password } = req.body;
     if (!password) return res.status(400).json({ error: 'Password required' });
@@ -75,7 +66,6 @@ app.post('/api/auth/login', async (req, res) => {
     res.json({ token });
 });
 
-// GET /api/projects (Public)
 app.get('/api/projects', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM projects ORDER BY created_at DESC');
@@ -86,7 +76,6 @@ app.get('/api/projects', async (req, res) => {
     }
 });
 
-// POST /api/projects (Admin only)
 app.post('/api/projects', authenticateToken, async (req, res) => {
     const { name, description, tech, github_url, live_url } = req.body;
     if (!name || !description) return res.status(400).json({ error: 'Name and description required' });
@@ -104,7 +93,6 @@ app.post('/api/projects', authenticateToken, async (req, res) => {
     }
 });
 
-// PUT /api/projects/:id (Admin only)
 app.put('/api/projects/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
     const { name, description, tech, github_url, live_url } = req.body;
@@ -114,7 +102,7 @@ app.put('/api/projects/:id', authenticateToken, async (req, res) => {
     try {
         const result = await pool.query(
             `UPDATE projects 
-       SET name = $1, description = $2, tech = $3, github_url = $4, live_url = $5
+        SET name = $1, description = $2, tech = $3, github_url = $4, live_url = $5
        WHERE id = $6 RETURNING *`,
             [name, description, tech || [], github_url || null, live_url || null, id]
         );
@@ -127,7 +115,6 @@ app.put('/api/projects/:id', authenticateToken, async (req, res) => {
     }
 });
 
-// DELETE /api/projects/:id (Admin only)
 app.delete('/api/projects/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
     try {
@@ -140,10 +127,8 @@ app.delete('/api/projects/:id', authenticateToken, async (req, res) => {
     }
 });
 
-// Health check
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 
-// Start server
 app.listen(PORT, async () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
     await initDB();
