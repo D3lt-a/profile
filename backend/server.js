@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-change-me';
 
 app.use(cors({
-    origin: 'https://gavinboris.netlify.app/',
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -65,6 +65,8 @@ app.post('/api/auth/login', async (req, res) => {
     const token = jwt.sign({ role: 'admin' }, JWT_SECRET, { expiresIn: '24h' });
     res.json({ token });
 });
+
+app.get('/ping', (req, res) => res.send('pong'));
 
 app.get('/api/projects', async (req, res) => {
     try {
